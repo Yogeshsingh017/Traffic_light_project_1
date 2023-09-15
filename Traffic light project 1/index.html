@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Traffic Light</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="option">
+            <div>
+                <span>Fancy Graphics</span>
+                <input name="fg" type="checkbox">
+            </div>
+            <div>
+                <span>Night Mode</span>
+                <input name="nm" type="checkbox">
+            </div>
+            <div>
+                <span>On Ground</span>
+                <input name="og" type="checkbox">
+            </div>
+            <div>
+                <span>Random</span>
+                <input name="rm" type="checkbox">
+            </div>
+        </div>
+        <div class="art">
+            <div class="top">
+                <div class="box">
+                    <div id="r0" class="led">
+                        <div class="arrow0"></div>
+                        <div class="arrow1"></div>
+                    </div>
+                    <div id="y0" class="led">
+                        <div class="arrow0"></div>
+                        <div class="arrow1"></div>
+                    </div>
+                    <div id="g0" class="led">
+                        <div class="arrow0"></div>
+                        <div class="arrow1"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div id="r1" class="led"></div>
+                    <div id="y1" class="led"></div>
+                    <div id="g1" class="led"></div>
+                </div>
+            </div>
+            <div class="pol"></div>
+            <div class="pol-ground"></div>
+            <div class="ground"></div>
+        </div>
+
+        <script>
+            /*
+ *> Coded By Thomas Hj
+ *> 30.09.2016
+ *> 26.11.2020
+ *> 2.01
+ * 
+ *> #4
+ */
+
+let page
+let rand = false
+
+let html = {
+    toggle: (name) => {
+        if(page.hasAttribute(name)) {
+            page.removeAttribute(name)
+            return
+        }
+        page.setAttribute(name, '')
+    }
+}
+
+// Trigger when a checkbox value has been change.
+window.onchange = function(event) {
+    switch(event.target.name) {
+        case 'fg':
+            html.toggle('fancy')
+            return
+        
+        case 'nm':
+            html.toggle('night')
+            return
+            
+        case 'og':
+            html.toggle('ground')
+            return
+            
+        case 'rm':
+            rand = !rand
+            return
+    }
+}
+
+// Trigger when the webpage is done loading.
+window.onload = function() {
+    page = document.documentElement
+    runLight(Math.random() < .15 ? 6 : 0)
+}
+
+// Light function.
+function runLight(i) {
+    let delay = 800
+    switch(i) {
+        case 0:
+            r0.className = 'led on'
+            r1.className = 'led on'
+            y1.className = 'led'
+            i++
+            delay = 5000
+            break
+        
+        case 1:
+            y0.className = 'led on'
+            y1.className = 'led on'
+            i++
+            delay = 500
+            break
+        
+        case 2:
+            r0.className = 'led'
+            y0.className = 'led'
+            g0.className = 'led on'
+            r1.className = 'led'
+            y1.className = 'led'
+            g1.className = 'led on'
+            i++
+            delay = 1000
+            break
+        
+        case 3:
+            y0.className = 'led on'
+            g0.className = 'led'
+            i++
+            delay = 500
+            break
+        
+        case 4:
+            r0.className = 'led on'
+            y0.className = 'led'
+            y1.className = 'led on'
+            g1.className = 'led'
+            i = 0
+            delay = 500
+            break
+        
+        case 6:
+            y0.className = 'led on'
+            y1.className = 'led on'
+            i++
+            break
+        
+        case 7:
+            y0.className = 'led'
+            y1.className = 'led'
+            i--
+            break
+    }
+    if(rand) {
+        i = Math.floor(Math.random() * 7)
+        delay = 100
+    }
+    setTimeout(() => {
+        runLight(i)
+    }, delay)
+}
+        </script>
+
+    </body>
+</html>
